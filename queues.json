@@ -1,0 +1,10 @@
+{
+  "queues": [
+    {
+      "identifier": "hcteams-eu"
+    },
+    {
+      "identifier": "hcteams-na"
+    }
+  ]
+}
