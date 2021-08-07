@@ -24,7 +24,7 @@ public class JoinQueueCommand {
                     .fetchModel(this.playerModelHandler.getPlayerProvider()
                             .getUniqueId(executor).toString());
 
-            model.addEntry(playerModel, queueHandler.getProvider());
+            model.addEntry(playerModel);
             executor.sendMessage(MessageConfiguration.QUEUE_JOIN
                     .replace("%queue_name%", model.getIdentifier())
             );

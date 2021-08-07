@@ -2,8 +2,14 @@ package io.github.nosequel.queue.shared.model.server;
 
 import io.github.nosequel.queue.shared.model.ModelHandler;
 import io.github.nosequel.storage.storage.StorageProvider;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 public class ServerHandler extends ModelHandler<ServerModel> {
+
+    private ServerModel localServer;
 
     public ServerHandler(StorageProvider<String, ServerModel> provider) {
         super(provider);

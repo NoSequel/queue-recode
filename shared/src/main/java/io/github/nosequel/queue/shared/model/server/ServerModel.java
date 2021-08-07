@@ -8,12 +8,16 @@ import io.github.nosequel.queue.shared.model.player.PlayerModelHandler;
 import io.github.nosequel.queue.shared.model.queue.QueueModel;
 import io.github.nosequel.storage.storage.StorageProvider;
 import lombok.Getter;
+import lombok.Setter;
 
-import java.util.Arrays;
 import java.util.UUID;
 
 @Getter
+@Setter
 public class ServerModel extends Model<ServerModel> {
+
+    private int onlinePlayers;
+    private int maxPlayers;
 
     public ServerModel(StorageProvider<String, ServerModel> storageProvider, String identifier) {
         super(storageProvider, identifier);

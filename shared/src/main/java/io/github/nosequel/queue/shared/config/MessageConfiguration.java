@@ -13,6 +13,9 @@ public class MessageConfiguration extends Configuration {
     @Configurable(path = "queue.connecting")
     public static String QUEUE_CONNECTING = "&6Sending you to %server_name%...";
 
+    @Configurable(path = "queue.metadata_update")
+    public static String QUEUE_UPDATED_METADATA = "&aYou have updated the %queue_name%'s metadata.";
+
     @SneakyThrows
     public MessageConfiguration(ConfigurationFile file) {
         super(file);

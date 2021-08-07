@@ -30,12 +30,13 @@ public class QueueMoveTask {
     public void run() {
         while (running) {
             for (QueueModel model : this.queueHandler.fetchModels()) {
-                if (!model.getEntries().isEmpty()) {
+
+                if (model.isJoinableQueue() && !model.getEntries().isEmpty()) {
                     final PlayerModel playerModel = model.getEntries().poll();
 
                     if (playerModel != null) {
                         model.updateToStorage(this.queueHandler.getProvider());
-                        model.sendMoveUpdate(playerModel, this.queueHandler.getProvider());
+                        model.sendMoveUpdate(playerModel);
 
                         QueueLogger.getInstance().log("Moving " + playerModel.getUniqueId() + " out of the " + model.getIdentifier() + " queue.");
                     }

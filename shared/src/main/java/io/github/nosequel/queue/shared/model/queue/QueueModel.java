@@ -9,8 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 import redis.clients.jedis.Jedis;
 
-import java.util.Comparator;
-import java.util.PriorityQueue;
+import java.util.*;
 
 @Getter
 @Setter
@@ -26,6 +25,19 @@ public class QueueModel extends Model<QueueModel> {
     }
 
     /**
+     * Check if the queue is joinable
+     *
+     * @return whether the queue is joinable or not
+     */
+    public boolean isJoinableQueue() {
+        if (this.targetServer == null) {
+            return false;
+        }
+
+        return this.targetServer.getMaxPlayers() > this.targetServer.getOnlinePlayers();
+    }
+
+    /**
      * Send an update to move to the server.
      * <p>
      * This method sends a {@link Jedis#publish(String, String)} message
@@ -33,13 +45,13 @@ public class QueueModel extends Model<QueueModel> {
      * </p>
      *
      * @param model    the model to move to the other server
-     * @param provider the provider to use to send the update
      */
-    public void sendMoveUpdate(PlayerModel model, StorageProvider<String, QueueModel> provider) {
+    public void sendMoveUpdate(PlayerModel model) {
         if (this.targetServer == null) {
             QueueLogger.getInstance().warn("Unable to send player leave update whilst #targetServer is null");
         } else {
-            provider.getStorageHandler().publish(this.targetServer.getIdentifier() + "-move", model.getUniqueId().toString() + "||" + this.targetServer.getIdentifier());
+            this.storageProvider.getStorageHandler()
+                    .publish(this.targetServer.getIdentifier() + "-move", model.getUniqueId().toString() + "||" + this.targetServer.getIdentifier());
         }
     }
 
@@ -92,10 +104,10 @@ public class QueueModel extends Model<QueueModel> {
      *
      * @param model the model to add to the queue
      */
-    public void addEntry(PlayerModel model, StorageProvider<String, QueueModel> provider) {
+    public void addEntry(PlayerModel model) {
         this.entries.add(model);
 
         // update the data within the global cache
-        this.updateToStorage(provider);
+        this.updateToStorage(this.storageProvider);
     }
 }
