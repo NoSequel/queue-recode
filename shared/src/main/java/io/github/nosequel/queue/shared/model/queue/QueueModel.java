@@ -1,5 +1,6 @@
 package io.github.nosequel.queue.shared.model.queue;
 
+import io.github.nosequel.queue.shared.logger.QueueLogger;
 import io.github.nosequel.queue.shared.model.Model;
 import io.github.nosequel.queue.shared.model.player.PlayerModel;
 import io.github.nosequel.queue.shared.model.server.ServerModel;
@@ -13,17 +14,15 @@ import java.util.PriorityQueue;
 
 @Getter
 @Setter
-public class QueueModel extends Model<String, QueueModel> {
+public class QueueModel extends Model<QueueModel> {
 
-    private final String identifier;
     private final PriorityQueue<PlayerModel> entries = new PriorityQueue<>(Comparator.comparingInt(player -> -player.getPriority()));
 
     // the server to send the player to
     private ServerModel targetServer;
 
     public QueueModel(StorageProvider<String, QueueModel> storageProvider, String identifier) {
-        super(storageProvider);
-        this.identifier = identifier;
+        super(storageProvider, identifier);
     }
 
     /**
@@ -38,10 +37,10 @@ public class QueueModel extends Model<String, QueueModel> {
      */
     public void sendMoveUpdate(PlayerModel model, StorageProvider<String, QueueModel> provider) {
         if (this.targetServer == null) {
-            throw new IllegalStateException("Unable to send player leave update whilst #targetServer is null");
+            QueueLogger.getInstance().warn("Unable to send player leave update whilst #targetServer is null");
+        } else {
+            provider.getStorageHandler().publish(this.targetServer.getIdentifier() + "-move", model.getUniqueId().toString() + "||" + this.targetServer.getIdentifier());
         }
-
-        provider.getStorageHandler().publish(this.targetServer.getIdentifier() + "-move", model.getUniqueId().toString() + "||" + this.targetServer.getIdentifier());
     }
 
     /**
@@ -81,16 +80,6 @@ public class QueueModel extends Model<String, QueueModel> {
         this.entries.add(model);
 
         // update the data within the global cache
-        this.updateQueue(provider);
+        this.updateToStorage(provider);
     }
-
-    /**
-     * Update the queue to the {@link StorageProvider}.
-     *
-     * @param provider the provider to update it to
-     */
-    public void updateQueue(StorageProvider<String, QueueModel> provider) {
-        provider.setEntry(this.identifier, this);
-    }
-
 }

@@ -1,19 +1,22 @@
 package io.github.nosequel.queue.shared.model.server;
 
+import io.github.nosequel.queue.shared.logger.QueueLogger;
+import io.github.nosequel.queue.shared.model.Model;
 import io.github.nosequel.queue.shared.model.player.PlayerModel;
 import io.github.nosequel.queue.shared.model.player.PlayerModelHandler;
 import io.github.nosequel.queue.shared.model.queue.QueueModel;
 import io.github.nosequel.storage.storage.StorageProvider;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
+import java.util.Arrays;
 import java.util.UUID;
 
 @Getter
-@RequiredArgsConstructor
-public class ServerModel {
+public class ServerModel extends Model<ServerModel> {
 
-    private final String identifier;
+    public ServerModel(StorageProvider<String, ServerModel> storageProvider, String identifier) {
+        super(storageProvider, identifier);
+    }
 
     /**
      * Setup the subscriber used for incoming messaging along the server's channel
@@ -27,7 +30,7 @@ public class ServerModel {
         }
 
         storageProvider.getStorageHandler().subscribe(this.identifier + "-move", message -> {
-            final String[] splitMessage = message.split("||");
+            final String[] splitMessage = message.split("\\|\\|");
 
             final UUID uniqueId = UUID.fromString(splitMessage[0]);
             final String serverId = splitMessage[1];
@@ -35,7 +38,11 @@ public class ServerModel {
             final PlayerModel playerModel = playerHandler.fetchModel(uniqueId.toString());
 
             if (playerModel != null) {
-                playerHandler.getPlayerProvider().sendToServer(playerModel, serverId);
+                QueueLogger.getInstance().debug("Attempting to send player to server");
+
+                if (playerHandler.getPlayerProvider() != null) {
+                    playerHandler.getPlayerProvider().sendToServer(playerModel, serverId);
+                }
             }
         });
     }

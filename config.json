@@ -1,4 +1,4 @@
 {
-  "logging.debug": false,
+  "logging.debug": true,
   "logging.warnings": true
 }

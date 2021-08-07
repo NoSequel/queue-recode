@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Getter
 @Setter
-public class PlayerModel extends Model<String, PlayerModel> implements Comparable<PlayerModel> {
+public class PlayerModel extends Model<PlayerModel> implements Comparable<PlayerModel> {
 
     private final UUID uniqueId;
     private final String name;
@@ -17,7 +17,8 @@ public class PlayerModel extends Model<String, PlayerModel> implements Comparabl
     private int priority;
 
     public PlayerModel(StorageProvider<String, PlayerModel> storageProvider, UUID uniqueId, String name) {
-        super(storageProvider);
+        super(storageProvider, uniqueId.toString());
+
         this.uniqueId = uniqueId;
         this.name = name;
     }

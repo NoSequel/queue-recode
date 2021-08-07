@@ -1,10 +1,8 @@
 {
   "queues": [
     {
-      "identifier": "hcteams-eu"
-    },
-    {
-      "identifier": "hcteams-na"
+      "identifier": "hcteams-eu",
+      "serverId": "dev-1"
     }
   ]
 }

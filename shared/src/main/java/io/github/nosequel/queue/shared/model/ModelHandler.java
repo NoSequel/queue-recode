@@ -9,7 +9,7 @@ import java.util.Set;
 
 @Getter
 @RequiredArgsConstructor
-public abstract class ModelHandler<T extends Model<?, ?>> {
+public abstract class ModelHandler<T extends Model<?>> {
 
     protected final StorageProvider<String, T> provider;
 
@@ -20,6 +20,17 @@ public abstract class ModelHandler<T extends Model<?, ?>> {
      * @return the newly created model
      */
     public abstract T createModel(Object... data);
+
+    /**
+     * Cache a provided object
+     *
+     * @param object the object to cache
+     * @return the cached object
+     */
+    public T cacheToStorage(T object) {
+        this.provider.setEntry(object.getIdentifier(), object);
+        return object;
+    }
 
     /**
      * Fetch all {@link Model} objects from the {@link StorageProvider}

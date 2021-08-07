@@ -38,10 +38,10 @@ public class PlayerModelHandler extends ModelHandler<PlayerModel> {
      */
     @Override
     public PlayerModel createModel(Object... data) {
-        return new PlayerModel(
+        return this.cacheToStorage(new PlayerModel(
                 this.provider,
                 (UUID) data[0],
                 (String) data[1]
-        );
+        ));
     }
 }

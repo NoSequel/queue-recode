@@ -10,7 +10,7 @@ public class QueueConfig extends Configuration {
 
     @Configurable(path = "queues")
     public static QueueModelConfig[] MODELS = new QueueModelConfig[]{
-            new QueueModelConfig("hcteams-eu")
+            new QueueModelConfig("hcteams-eu", "dev-1")
     };
 
     @SneakyThrows

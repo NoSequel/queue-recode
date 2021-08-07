@@ -7,7 +7,6 @@ import io.github.nosequel.queue.proxy.config.model.QueueModelConfig;
 import io.github.nosequel.queue.proxy.logger.ProxyLogger;
 import io.github.nosequel.queue.proxy.task.QueueMoveTask;
 import io.github.nosequel.queue.shared.QueueBootstrap;
-import io.github.nosequel.queue.shared.model.queue.QueueModel;
 
 import java.io.File;
 
@@ -25,7 +24,7 @@ public class QueueProxyBootstrap extends QueueBootstrap {
 
         // setup the configuration
         for (QueueModelConfig model : QueueConfig.MODELS) {
-            queueHandler.createQueue(new QueueModel(queueHandler.getProvider(), model.getIdentifier()));
+            queueHandler.createQueue(model.createModel(queueHandler.getProvider(), serverHandler));
         }
 
         // start the move task
