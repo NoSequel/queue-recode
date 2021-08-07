@@ -37,8 +37,5 @@ public abstract class QueueBootstrap {
 
         // setup the local server data
         new ServerConfiguration(new JsonConfigurationFile(new File("servers.json")));
-
-        // setup the local server subscriber
-        ServerConfiguration.LOCAL_SERVER.createModel(this.serverHandler).setupSubscriber(queueProvider, playerModelHandler);
     }
 }

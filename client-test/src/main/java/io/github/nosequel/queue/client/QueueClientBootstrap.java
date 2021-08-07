@@ -2,6 +2,7 @@ package io.github.nosequel.queue.client;
 
 import io.github.nosequel.queue.client.logger.TestClientLogger;
 import io.github.nosequel.queue.shared.QueueBootstrap;
+import io.github.nosequel.queue.shared.config.ServerConfiguration;
 import io.github.nosequel.queue.shared.logger.QueueLogger;
 import io.github.nosequel.queue.shared.model.player.PlayerModel;
 import io.github.nosequel.queue.shared.model.queue.QueueModel;
@@ -19,6 +20,8 @@ public class QueueClientBootstrap extends QueueBootstrap {
         new TestClientLogger(true, true);
 
         super.load();
+
+        ServerConfiguration.LOCAL_SERVER.createModel(this.serverHandler).setupSubscriber(this.queueHandler.getProvider(), playerModelHandler);
 
         while (true) {
             final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
