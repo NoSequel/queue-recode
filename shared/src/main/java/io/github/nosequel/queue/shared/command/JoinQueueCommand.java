@@ -9,6 +9,8 @@ import io.github.nosequel.queue.shared.model.queue.QueueHandler;
 import io.github.nosequel.queue.shared.model.queue.QueueModel;
 import lombok.RequiredArgsConstructor;
 
+import java.util.concurrent.ForkJoinPool;
+
 @RequiredArgsConstructor
 public class JoinQueueCommand {
 
@@ -17,13 +19,15 @@ public class JoinQueueCommand {
 
     @Command(label = "join", aliases = {"queue", "joinqueue"}, permission = "queue.join", userOnly = true)
     public void joinQueue(CommandExecutor executor, QueueModel model) {
-        final PlayerModel playerModel = playerModelHandler
-                .fetchModel(this.playerModelHandler.getPlayerProvider()
-                        .getUniqueId(executor).toString());
+        ForkJoinPool.commonPool().execute(() -> {
+            final PlayerModel playerModel = playerModelHandler
+                    .fetchModel(this.playerModelHandler.getPlayerProvider()
+                            .getUniqueId(executor).toString());
 
-        model.addEntry(playerModel, queueHandler.getProvider());
-        executor.sendMessage(MessageConfiguration.QUEUE_JOIN
-                .replace("%queue_name%", model.getIdentifier())
-        );
+            model.addEntry(playerModel, queueHandler.getProvider());
+            executor.sendMessage(MessageConfiguration.QUEUE_JOIN
+                    .replace("%queue_name%", model.getIdentifier())
+            );
+        });
     }
 }

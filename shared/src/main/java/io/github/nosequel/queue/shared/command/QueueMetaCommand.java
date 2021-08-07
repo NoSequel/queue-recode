@@ -8,6 +8,8 @@ import io.github.nosequel.queue.shared.model.queue.QueueHandler;
 import io.github.nosequel.queue.shared.model.queue.QueueModel;
 import lombok.RequiredArgsConstructor;
 
+import java.util.concurrent.ForkJoinPool;
+
 @RequiredArgsConstructor
 public class QueueMetaCommand {
 
@@ -16,10 +18,12 @@ public class QueueMetaCommand {
 
     @Command(label = "queuemeta", aliases = {"meta", "qmeta"}, permission = "queue.meta", userOnly = false)
     public void meta(CommandExecutor executor) {
-        final PlayerModel model = playerHandler.fetchModel(playerHandler.getPlayerProvider().getUniqueId(executor).toString());
+        ForkJoinPool.commonPool().execute(() -> {
+            final PlayerModel model = playerHandler.fetchModel(playerHandler.getPlayerProvider().getUniqueId(executor).toString());
 
-        for (QueueModel queue : queueHandler.getQueues(model.getUniqueId())) {
-            executor.sendMessage(queue.getIdentifier() + " - " + queue.getPosition(model));
-        }
+            for (QueueModel queue : queueHandler.getQueues(model.getUniqueId())) {
+                executor.sendMessage(queue.getIdentifier() + " - " + queue.getPosition(model));
+            }
+        });
     }
 }
