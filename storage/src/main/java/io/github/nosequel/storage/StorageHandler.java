@@ -2,6 +2,7 @@ package io.github.nosequel.storage;
 
 import io.github.nosequel.storage.serialization.Serializer;
 import io.github.nosequel.storage.serialization.impl.GsonSerializer;
+import io.github.nosequel.storage.settings.Settings;
 import lombok.Getter;
 
 import java.util.HashMap;
@@ -12,6 +13,13 @@ import java.util.function.Consumer;
 public abstract class StorageHandler {
 
     private final Map<Class<?>, Serializer<?>> serializerMap = new HashMap<>();
+
+    /**
+     * Get the settings required for authentication.
+     *
+     * @return the settings
+     */
+    public abstract Settings<?, ?> getAuthSettings();
 
     /**
      * Subscribe to a channel within the storage handler.

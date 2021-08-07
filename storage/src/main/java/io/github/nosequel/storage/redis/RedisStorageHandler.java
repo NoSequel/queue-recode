@@ -1,7 +1,7 @@
 package io.github.nosequel.storage.redis;
 
 import io.github.nosequel.storage.StorageHandler;
-import io.github.nosequel.storage.redis.settings.RedisSettings;
+import io.github.nosequel.storage.settings.settings.RedisSettings;
 import lombok.Getter;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -14,15 +14,15 @@ import java.util.function.Consumer;
 public class RedisStorageHandler extends StorageHandler {
 
     private final JedisPool pool;
-    private final RedisSettings settings;
+    private final RedisSettings authSettings;
 
     public RedisStorageHandler(RedisSettings settings) {
-        this.settings = settings;
-        this.pool = settings.createPool();
+        this.authSettings = settings;
+        this.pool = settings.createObject();
     }
 
     public Jedis getResource() {
-        return this.settings.authenticate(this.pool.getResource());
+        return this.authSettings.auth(this.pool.getResource());
     }
 
     /**

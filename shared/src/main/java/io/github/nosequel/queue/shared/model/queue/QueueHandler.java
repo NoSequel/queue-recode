@@ -48,4 +48,18 @@ public class QueueHandler extends ModelHandler<QueueModel> {
 
         return models;
     }
+
+    /**
+     * Create a new model with provided data.
+     *
+     * @param data the data to use to instantiate the model
+     * @return the newly created model
+     */
+    @Override
+    public QueueModel createModel(Object... data) {
+        return new QueueModel(
+                this.provider,
+                (String) data[0]
+        );
+    }
 }

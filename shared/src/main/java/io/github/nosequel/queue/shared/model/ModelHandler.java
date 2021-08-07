@@ -14,6 +14,14 @@ public abstract class ModelHandler<T extends Model<?, ?>> {
     protected final StorageProvider<String, T> provider;
 
     /**
+     * Create a new model with provided data.
+     *
+     * @param data the data to use to instantiate the model
+     * @return the newly created model
+     */
+    public abstract T createModel(Object... data);
+
+    /**
      * Fetch all {@link Model} objects from the {@link StorageProvider}
      *
      * @return the fetched models

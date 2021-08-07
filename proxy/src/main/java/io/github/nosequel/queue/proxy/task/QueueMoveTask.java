@@ -2,6 +2,7 @@ package io.github.nosequel.queue.proxy.task;
 
 import io.github.nosequel.queue.shared.logger.QueueLogger;
 import io.github.nosequel.queue.shared.model.player.PlayerModel;
+import io.github.nosequel.queue.shared.model.player.PlayerModelHandler;
 import io.github.nosequel.queue.shared.model.queue.QueueHandler;
 import io.github.nosequel.queue.shared.model.queue.QueueModel;
 import lombok.Getter;
@@ -16,17 +17,20 @@ import java.util.UUID;
 public class QueueMoveTask {
 
     private final QueueHandler queueHandler;
+    private final PlayerModelHandler playerModelHandler;
+
     private boolean running = true;
 
     @SneakyThrows
-    public QueueMoveTask(QueueHandler queueHandler) {
+    public QueueMoveTask(QueueHandler queueHandler, PlayerModelHandler playerModelHandler) {
         this.queueHandler = queueHandler;
+        this.playerModelHandler = playerModelHandler;
 
         final Set<QueueModel> models = queueHandler.fetchModels();
 
         for (QueueModel model : models) {
             if (model.getEntries().isEmpty()) {
-                model.addEntry(new PlayerModel(UUID.randomUUID(), UUID.randomUUID().toString()), queueHandler.getProvider());
+                model.addEntry(playerModelHandler.createModel(UUID.randomUUID(), UUID.randomUUID().toString()), queueHandler.getProvider());
             }
         }
 

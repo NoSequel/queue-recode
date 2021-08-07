@@ -1,4 +1,4 @@
-package io.github.nosequel.storage.redis.settings.impl;
+package io.github.nosequel.storage.settings.settings.impl;
 
 import redis.clients.jedis.Jedis;
 
@@ -12,15 +12,14 @@ public class UserPasswordRedisSettings extends PasswordRedisSettings {
     }
 
     /**
-     * Authenticate the provided {@link Jedis} object
-     * using the current authorization data.
+     * Authenticate for the database
      *
-     * @param jedis the jedis object to authenticate for
-     * @return the jedis object
+     * @param object the object to authenticate for
+     * @return the authenticated object
      */
     @Override
-    public Jedis authenticate(Jedis jedis) {
-        jedis.auth(this.username, this.password);
-        return jedis;
+    public Jedis auth(Jedis object) {
+        object.auth(this.username, this.password);
+        return object;
     }
 }
