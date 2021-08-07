@@ -7,8 +7,8 @@ public abstract class QueueLogger {
     @Getter
     private static QueueLogger instance;
 
-    private final boolean debug;
-    private final boolean warnings;
+    protected final boolean debug;
+    protected final boolean warnings;
 
     public QueueLogger(boolean debug, boolean warnings) {
         instance = this;

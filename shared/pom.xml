@@ -22,6 +22,12 @@
             <artifactId>storage</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.github.NoSequel.CommandAPI</groupId>
+            <artifactId>shared</artifactId>
+            <version>ed6156c131</version>
+        </dependency>
     </dependencies>
 
 </project>

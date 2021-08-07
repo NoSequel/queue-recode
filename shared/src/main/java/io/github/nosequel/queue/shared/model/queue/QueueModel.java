@@ -52,19 +52,35 @@ public class QueueModel extends Model<QueueModel> {
      * unable to find within the queue it will return -1.
      */
     public Integer getPosition(PlayerModel playerModel) {
-        if (!this.entries.contains(playerModel)) {
+        if (!this.hasPlayer(playerModel)) {
             throw new IllegalArgumentException("playerModel with unique identifier " + playerModel.getUniqueId().toString() + " is not in the " + this.identifier + " queue.");
         }
 
         for (int i = 0; i < this.entries.size(); i++) {
             final PlayerModel current = this.entries.peek();
 
-            if (current != null && current.equals(playerModel)) {
+            if (current != null && current.getUniqueId().equals(playerModel.getUniqueId())) {
                 return i + 1;
             }
         }
 
         return -1;
+    }
+
+    /**
+     * Check if the {@link QueueModel} has a {@link PlayerModel} as entry.
+     *
+     * @param model the model to check for
+     * @return whether it has a player
+     */
+    public boolean hasPlayer(PlayerModel model) {
+        for (PlayerModel entry : this.entries) {
+            if (entry.getUniqueId().equals(model.getUniqueId())) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

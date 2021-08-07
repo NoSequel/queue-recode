@@ -47,7 +47,7 @@ public class QueueMoveTask {
                     if (playerModel != null) {
                         model.updateToStorage(this.queueHandler.getProvider());
                         model.sendMoveUpdate(playerModel, this.queueHandler.getProvider());
-                        
+
                         QueueLogger.getInstance().log("Moving " + playerModel.getUniqueId() + " out of the " + model.getIdentifier() + " queue.");
                     }
                 } else {

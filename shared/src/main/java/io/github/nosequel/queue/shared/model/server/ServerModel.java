@@ -41,6 +41,7 @@ public class ServerModel extends Model<ServerModel> {
                 QueueLogger.getInstance().debug("Attempting to send player with name \"" + playerModel.getName() + "\" to server \"" + serverId + "\".");
 
                 if (playerHandler.getPlayerProvider() != null) {
+                    playerHandler.getPlayerProvider().sendMessage(playerModel, "attempting to send to server " + serverId);
                     playerHandler.getPlayerProvider().sendToServer(playerModel, serverId);
                 }
             }

@@ -12,6 +12,10 @@ import java.io.File;
 
 public class QueueProxyBootstrap extends QueueBootstrap {
 
+    public QueueProxyBootstrap(File dataFolder) {
+        super(dataFolder);
+    }
+
     @Override
     public void load() {
         new QueueConfig(new JsonConfigurationFile(new File("queues.json")));

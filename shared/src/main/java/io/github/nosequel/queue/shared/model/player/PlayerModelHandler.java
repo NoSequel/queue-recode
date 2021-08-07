@@ -3,17 +3,18 @@ package io.github.nosequel.queue.shared.model.player;
 import io.github.nosequel.queue.shared.model.ModelHandler;
 import io.github.nosequel.storage.storage.StorageProvider;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.UUID;
 
 @Getter
+@Setter
 public class PlayerModelHandler extends ModelHandler<PlayerModel> {
 
-    private final PlayerProvider playerProvider;
+    private PlayerProvider playerProvider;
 
-    public PlayerModelHandler(StorageProvider<String, PlayerModel> provider, PlayerProvider playerProvider) {
+    public PlayerModelHandler(StorageProvider<String, PlayerModel> provider) {
         super(provider);
-        this.playerProvider = playerProvider;
     }
 
     /**
