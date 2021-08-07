@@ -44,7 +44,12 @@ public class RedisStorageProvider<T> extends StorageProvider<String, T> {
      */
     @Override
     public void setEntry(String key, T value) {
-        ForkJoinPool.commonPool().execute(() -> this.storageHandler.getResource().hset(this.key, key, this.serializer.serialize(value)));
+        ForkJoinPool.commonPool().execute(() -> {
+            final Jedis jedis = this.storageHandler.getResource();
+
+            jedis.hset(this.key, key, this.serializer.serialize(value));
+            jedis.close();
+        });
     }
 
     /**
@@ -59,7 +64,12 @@ public class RedisStorageProvider<T> extends StorageProvider<String, T> {
      */
     @Override
     public void removeEntry(String key) {
-        ForkJoinPool.commonPool().execute(() -> this.storageHandler.getResource().hdel(this.key, key));
+        ForkJoinPool.commonPool().execute(() -> {
+            final Jedis jedis = this.storageHandler.getResource();
+
+            jedis.hdel(this.key, key);
+            jedis.close();
+        });
     }
 
     /**

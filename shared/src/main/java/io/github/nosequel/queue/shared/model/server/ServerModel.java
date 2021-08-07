@@ -38,7 +38,7 @@ public class ServerModel extends Model<ServerModel> {
             final PlayerModel playerModel = playerHandler.fetchModel(uniqueId.toString());
 
             if (playerModel != null) {
-                QueueLogger.getInstance().debug("Attempting to send player to server");
+                QueueLogger.getInstance().debug("Attempting to send player with name \"" + playerModel.getName() + "\" to server \"" + serverId + "\".");
 
                 if (playerHandler.getPlayerProvider() != null) {
                     playerHandler.getPlayerProvider().sendToServer(playerModel, serverId);

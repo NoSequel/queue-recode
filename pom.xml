@@ -12,6 +12,7 @@
         <module>shared</module>
         <module>storage</module>
         <module>proxy</module>
+        <module>client-test</module>
     </modules>
 
     <properties>
