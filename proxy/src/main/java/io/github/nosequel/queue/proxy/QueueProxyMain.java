@@ -7,7 +7,7 @@ public class QueueProxyMain {
 
     public static void main(String[] args) {
         // queue bootstrapping
-        new QueueProxyBootstrap(new File("./")).load();
+        new QueueProxyBootstrap(new File("./configurations/")).load();
     }
 
 }

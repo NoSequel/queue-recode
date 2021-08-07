@@ -18,8 +18,8 @@ public class QueueProxyBootstrap extends QueueBootstrap {
 
     @Override
     public void load() {
-        new QueueConfig(new JsonConfigurationFile(new File("queues.json")));
-        new GlobalConfig(new JsonConfigurationFile(new File("config.json")));
+        new QueueConfig(new JsonConfigurationFile(new File(this.getDataFolder(), "queues.json")));
+        new GlobalConfig(new JsonConfigurationFile(new File(this.getDataFolder(), "config.json")));
 
         // initialize logger
         new ProxyLogger(GlobalConfig.LOG_DEBUG, GlobalConfig.LOG_WARNINGS);

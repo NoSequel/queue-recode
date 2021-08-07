@@ -17,15 +17,23 @@ import io.github.nosequel.storage.redis.RedisStorageHandler;
 import io.github.nosequel.storage.settings.settings.impl.NoAuthRedisSettings;
 import io.github.nosequel.storage.storage.impl.RedisStorageProvider;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 import java.io.File;
 
 @Getter
-@RequiredArgsConstructor
 public abstract class QueueBootstrap {
 
     private final File dataFolder;
+
+    public QueueBootstrap(File dataFolder) {
+        this.dataFolder = dataFolder;
+
+        if (!this.dataFolder.exists()) {
+            if (this.dataFolder.mkdirs()) {
+                System.out.println("Made directory \"" + dataFolder.getPath() + "\"");
+            }
+        }
+    }
 
     protected QueueHandler queueHandler;
     protected ServerHandler serverHandler;
