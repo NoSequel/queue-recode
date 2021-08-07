@@ -6,10 +6,10 @@ import io.github.nosequel.queue.shared.model.server.ServerModel;
 import io.github.nosequel.storage.storage.StorageProvider;
 import lombok.Getter;
 import lombok.Setter;
+import redis.clients.jedis.Jedis;
 
 import java.util.Comparator;
 import java.util.PriorityQueue;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -24,6 +24,24 @@ public class QueueModel extends Model<String, QueueModel> {
     public QueueModel(StorageProvider<String, QueueModel> storageProvider, String identifier) {
         super(storageProvider);
         this.identifier = identifier;
+    }
+
+    /**
+     * Send an update to move to the server.
+     * <p>
+     * This method sends a {@link Jedis#publish(String, String)} message
+     * to the target server, unless the {@link QueueModel#targetServer} object is null.
+     * </p>
+     *
+     * @param model    the model to move to the other server
+     * @param provider the provider to use to send the update
+     */
+    public void sendMoveUpdate(PlayerModel model, StorageProvider<String, QueueModel> provider) {
+        if (this.targetServer == null) {
+            throw new IllegalStateException("Unable to send player leave update whilst #targetServer is null");
+        }
+
+        provider.getStorageHandler().publish(this.targetServer.getIdentifier() + "-move", model.getUniqueId().toString() + "||" + this.targetServer.getIdentifier());
     }
 
     /**

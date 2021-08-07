@@ -3,7 +3,6 @@ package io.github.nosequel.queue.proxy.config;
 import io.github.nosequel.config.Configuration;
 import io.github.nosequel.config.ConfigurationFile;
 import io.github.nosequel.config.annotation.Configurable;
-import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 
 public class GlobalConfig extends Configuration {

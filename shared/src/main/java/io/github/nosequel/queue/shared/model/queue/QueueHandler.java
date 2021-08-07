@@ -16,6 +16,15 @@ public class QueueHandler extends ModelHandler<QueueModel> {
         super(provider);
     }
 
+    /**
+     * Create a new {@link QueueModel} object.
+     * <p>
+     * This method writes the queue to the provided
+     * storage provider within the queue handler object.
+     * </p>
+     *
+     * @param model the model to create/register
+     */
     public void createQueue(QueueModel model) {
         this.provider.setEntry(model.getIdentifier(), model);
     }
