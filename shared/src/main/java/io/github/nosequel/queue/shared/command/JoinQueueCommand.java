@@ -2,6 +2,7 @@ package io.github.nosequel.queue.shared.command;
 
 import io.github.nosequel.command.annotation.Command;
 import io.github.nosequel.command.executor.CommandExecutor;
+import io.github.nosequel.queue.shared.config.MessageConfiguration;
 import io.github.nosequel.queue.shared.model.player.PlayerModel;
 import io.github.nosequel.queue.shared.model.player.PlayerModelHandler;
 import io.github.nosequel.queue.shared.model.queue.QueueHandler;
@@ -21,5 +22,8 @@ public class JoinQueueCommand {
                         .getUniqueId(executor).toString());
 
         model.addEntry(playerModel, queueHandler.getProvider());
+        executor.sendMessage(MessageConfiguration.QUEUE_JOIN
+                .replace("%queue_name%", model.getIdentifier())
+        );
     }
 }

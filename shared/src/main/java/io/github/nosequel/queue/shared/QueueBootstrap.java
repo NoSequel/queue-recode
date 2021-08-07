@@ -5,6 +5,7 @@ import io.github.nosequel.config.json.JsonConfigurationFile;
 import io.github.nosequel.queue.shared.command.JoinQueueCommand;
 import io.github.nosequel.queue.shared.command.QueueMetaCommand;
 import io.github.nosequel.queue.shared.command.adapter.QueueModelTypeAdapter;
+import io.github.nosequel.queue.shared.config.MessageConfiguration;
 import io.github.nosequel.queue.shared.config.ServerConfiguration;
 import io.github.nosequel.queue.shared.model.player.PlayerModel;
 import io.github.nosequel.queue.shared.model.player.PlayerModelHandler;
@@ -45,6 +46,7 @@ public abstract class QueueBootstrap {
 
         // setup the local server data
         new ServerConfiguration(new JsonConfigurationFile(new File(this.dataFolder, "servers.json")));
+        new MessageConfiguration(new JsonConfigurationFile(new File(this.dataFolder, "messages.json")));
     }
 
     public void registerCommands(CommandHandler commandHandler) {

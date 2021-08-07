@@ -9,9 +9,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
 
-import java.util.Set;
-import java.util.UUID;
-
 @Getter
 @Setter
 public class QueueMoveTask {
@@ -25,14 +22,6 @@ public class QueueMoveTask {
     public QueueMoveTask(QueueHandler queueHandler, PlayerModelHandler playerModelHandler) {
         this.queueHandler = queueHandler;
         this.playerModelHandler = playerModelHandler;
-
-        final Set<QueueModel> models = queueHandler.fetchModels();
-
-        for (QueueModel model : models) {
-            if (model.getEntries().isEmpty()) {
-                model.addEntry(playerModelHandler.createModel(UUID.randomUUID(), UUID.randomUUID().toString()), queueHandler.getProvider());
-            }
-        }
 
         this.run();
     }

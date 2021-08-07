@@ -1,5 +1,6 @@
 package io.github.nosequel.queue.shared.model.server;
 
+import io.github.nosequel.queue.shared.config.MessageConfiguration;
 import io.github.nosequel.queue.shared.logger.QueueLogger;
 import io.github.nosequel.queue.shared.model.Model;
 import io.github.nosequel.queue.shared.model.player.PlayerModel;
@@ -41,7 +42,10 @@ public class ServerModel extends Model<ServerModel> {
                 QueueLogger.getInstance().debug("Attempting to send player with name \"" + playerModel.getName() + "\" to server \"" + serverId + "\".");
 
                 if (playerHandler.getPlayerProvider() != null) {
-                    playerHandler.getPlayerProvider().sendMessage(playerModel, "attempting to send to server " + serverId);
+                    playerHandler.getPlayerProvider().sendMessage(playerModel, MessageConfiguration.QUEUE_CONNECTING
+                            .replace("%server_name%", serverId)
+                    );
+
                     playerHandler.getPlayerProvider().sendToServer(playerModel, serverId);
                 }
             }

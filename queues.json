@@ -1,8 +1,0 @@
-{
-  "queues": [
-    {
-      "identifier": "hcteams-eu",
-      "serverId": "dev-1"
-    }
-  ]
-}

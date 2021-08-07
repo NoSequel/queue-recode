@@ -40,7 +40,11 @@ public class SpigotPlayerProvider implements PlayerProvider {
      */
     @Override
     public void sendMessage(PlayerModel playerModel, String message) {
-        Bukkit.getPlayer(playerModel.getUniqueId()).sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+        final Player player = Bukkit.getPlayer(playerModel.getUniqueId());
+
+        if (player != null) {
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+        }
     }
 
     /**
